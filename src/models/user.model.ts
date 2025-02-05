@@ -1,12 +1,13 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Document } from "mongoose";
 
-export interface IUser {
+export interface IUser extends Document {
 	name: string;
 	email: string;
 	password: string;
 	img: string;
 	role: string;
 	google: boolean;
+	uid: string;
 }
 
 const UserSchema = new Schema<IUser>({
@@ -35,6 +36,17 @@ const UserSchema = new Schema<IUser>({
 		type: Boolean,
 		default: false,
 	},
+});
+
+UserSchema.method("toJSON", function () {
+	const { __v, _id, ...object } = this.toObject() as IUser & {
+		__v: string;
+		_id: string;
+	};
+
+	object.uid = _id;
+
+	return object;
 });
 
 export const User = model<IUser>("User", UserSchema);

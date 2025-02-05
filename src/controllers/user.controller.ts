@@ -1,10 +1,13 @@
 import { Request, Response } from "express";
 import { User } from "../models/user.model";
 
-const getUsers = (req: Request, res: Response) => {
+const getUsers = async (req: Request, res: Response) => {
+	const users = await User.find({}, "name email role google");
+	console.log(users);
+
 	res.json({
 		ok: true,
-		msg: "get Users",
+		users,
 	});
 };
 
