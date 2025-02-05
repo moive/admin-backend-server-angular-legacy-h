@@ -11,16 +11,32 @@ const getUsers = async (req: Request, res: Response) => {
 	});
 };
 
-const createUser = async (req: Request, res: Response) => {
+const createUser = async (req: Request, res: Response): Promise<void> => {
 	const { email, password, name } = req.body;
+	try {
+		const existsUser = await User.findOne({ email });
+		if (existsUser) {
+			res.status(400).json({
+				ok: false,
+				msg: "The email is already registered",
+			});
+			return;
+		}
 
-	const user = new User(req.body);
-	await user.save();
+		const user = new User(req.body);
+		await user.save();
 
-	res.json({
-		ok: true,
-		user,
-	});
+		res.json({
+			ok: true,
+			user,
+		});
+	} catch (error: any) {
+		console.log(error);
+		res.status(500).json({
+			ok: false,
+			msg: error.message,
+		});
+	}
 };
 
 export { getUsers, createUser };
