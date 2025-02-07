@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { User } from "../models/user.model";
+import bcrypt from "bcryptjs";
 
 const getUsers = async (req: Request, res: Response) => {
 	const users = await User.find({}, "name email role google");
@@ -12,7 +13,7 @@ const getUsers = async (req: Request, res: Response) => {
 };
 
 const createUser = async (req: Request, res: Response): Promise<void> => {
-	const { email, password, name } = req.body;
+	const { email, password } = req.body;
 
 	try {
 		const existsUser = await User.findOne({ email });
@@ -25,6 +26,10 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
 		}
 
 		const user = new User(req.body);
+
+		const salt = bcrypt.genSaltSync(12);
+		user.password = bcrypt.hashSync(password, salt);
+
 		await user.save();
 
 		res.json({
