@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { User } from "../models/user.model";
-import { validationResult } from "express-validator";
 
 const getUsers = async (req: Request, res: Response) => {
 	const users = await User.find({}, "name email role google");
@@ -14,14 +13,6 @@ const getUsers = async (req: Request, res: Response) => {
 
 const createUser = async (req: Request, res: Response): Promise<void> => {
 	const { email, password, name } = req.body;
-
-	const errors = validationResult(req);
-	if (!errors.isEmpty()) {
-		res
-			.status(400)
-			.json({ ok: false, errors: errors.formatWith((e) => e.msg).array() });
-		return;
-	}
 
 	try {
 		const existsUser = await User.findOne({ email });
