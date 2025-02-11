@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
 	createUser,
+	deleteUser,
 	getUsers,
 	updateUser,
 } from "../controllers/user.controller";
@@ -26,9 +27,11 @@ router.put(
 		check("name", "The name is required.").not().isEmpty(),
 		check("email", "The email is required.").isEmail(),
 		check("role", "the role is required.").not().isEmpty(),
-		// validatorFields,
+		validatorFields,
 	],
 	updateUser
 );
+
+router.delete("/:id", deleteUser);
 
 export default router;
