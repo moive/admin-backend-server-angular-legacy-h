@@ -31,7 +31,7 @@ const login = async (req: Request, res: Response) => {
 			token,
 		});
 	} catch (error) {
-		console.log(11, error);
+		console.log(error);
 		res.status(500).json({
 			ok: false,
 			msg: "Internal Server Error.",

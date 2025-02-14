@@ -5,8 +5,6 @@ import { generarJWT } from "../helpers/jwt";
 
 const getUsers = async (req: Request, res: Response) => {
 	const users = await User.find({}, "name email role google");
-	console.log(users);
-
 	res.json({
 		ok: true,
 		users,

@@ -7,10 +7,11 @@ import {
 } from "../controllers/user.controller";
 import { check } from "express-validator";
 import { validatorFields } from "../middlewares/validator-fields.middleware";
+import { validarJWT } from "../middlewares/validator-jwt.middleware";
 
 const router = Router();
 
-router.get("/", getUsers);
+router.get("/", validarJWT, getUsers);
 router.post(
 	"/",
 	[
@@ -24,6 +25,7 @@ router.post(
 router.put(
 	"/:id",
 	[
+		validarJWT,
 		check("name", "The name is required.").not().isEmpty(),
 		check("email", "The email is required.").isEmail(),
 		check("role", "the role is required.").not().isEmpty(),
@@ -32,6 +34,6 @@ router.put(
 	updateUser
 );
 
-router.delete("/:id", deleteUser);
+router.delete("/:id", validarJWT, deleteUser);
 
 export default router;
