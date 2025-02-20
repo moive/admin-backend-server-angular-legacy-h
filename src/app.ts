@@ -20,8 +20,8 @@ dbConnection();
 
 app.use("/api/users", UserRouter);
 app.use("/api/login", AuthRouter);
-app.use("/api/hospital", HospitalRouter);
-app.use("/api/doctor", DoctorRouter);
+app.use("/api/hospitals", HospitalRouter);
+app.use("/api/doctors", DoctorRouter);
 
 const msgListening =
 	`################################################ \n` +

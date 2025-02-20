@@ -18,6 +18,7 @@ const HospitalSchema = new Schema<IHospital>({
 	user: {
 		type: Schema.Types.ObjectId,
 		ref: "User",
+		required: true,
 	},
 });
 
