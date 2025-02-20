@@ -9,6 +9,7 @@ import { dbConnection } from "./database/db";
 import UserRouter from "./routes/users.routes";
 import AuthRouter from "./routes/auth.routes";
 import HospitalRouter from "./routes/hospital.route";
+import DoctorRouter from "./routes/doctor.router";
 
 const app = express();
 
@@ -20,6 +21,7 @@ dbConnection();
 app.use("/api/users", UserRouter);
 app.use("/api/login", AuthRouter);
 app.use("/api/hospital", HospitalRouter);
+app.use("/api/doctor", DoctorRouter);
 
 const msgListening =
 	`################################################ \n` +
