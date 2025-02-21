@@ -8,8 +8,9 @@ import { dbConnection } from "./database/db";
 
 import UserRouter from "./routes/users.routes";
 import AuthRouter from "./routes/auth.routes";
-import HospitalRouter from "./routes/hospital.route";
-import DoctorRouter from "./routes/doctor.router";
+import HospitalRouter from "./routes/hospital.routes";
+import DoctorRouter from "./routes/doctor.routes";
+import FullSearchRouter from "./routes/full-search.routes";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use("/api/users", UserRouter);
 app.use("/api/login", AuthRouter);
 app.use("/api/hospitals", HospitalRouter);
 app.use("/api/doctors", DoctorRouter);
+app.use("/api/full-search", FullSearchRouter);
 
 const msgListening =
 	`################################################ \n` +
