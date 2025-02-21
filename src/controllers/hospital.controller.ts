@@ -3,9 +3,10 @@ import { Hospital } from "../models/hospital.model";
 import { IRequest } from "../interfaces/req.interface";
 
 const getHospitals = async (req: Request, res: Response) => {
+	const hospitals = await Hospital.find().populate("user", "name email");
 	res.json({
 		ok: true,
-		msg: "getHospitals",
+		hospitals,
 	});
 };
 const createHospital = async (req: IRequest, res: Response) => {
