@@ -13,7 +13,15 @@ import {
 const router = Router();
 
 router.get("/", validarJWT, getDoctors);
-router.post("/", [], createDoctor);
+router.post(
+	"/",
+	[
+		validarJWT,
+		check("name", "The doctorn name is required").not().isEmpty(),
+		validatorFields,
+	],
+	createDoctor
+);
 router.put("/:id", [], updateDoctor);
 
 router.delete("/:id", validarJWT, deleteDoctor);

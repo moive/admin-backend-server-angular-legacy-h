@@ -20,10 +20,12 @@ const DoctorSchema = new Schema<IDoctor>({
 	user: {
 		type: Schema.Types.ObjectId,
 		ref: "User",
+		required: true,
 	},
 	hospital: {
 		type: Schema.Types.ObjectId,
 		ref: "Hospital",
+		required: true,
 	},
 });
 

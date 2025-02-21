@@ -17,7 +17,7 @@ router.post(
 	"/",
 	[
 		validarJWT,
-		check("name", "The name is required").not().isEmpty(),
+		check("name", "The hospital name is required").not().isEmpty(),
 		validatorFields,
 	],
 	createHospital
