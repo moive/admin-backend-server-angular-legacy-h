@@ -4,9 +4,24 @@ import bcrypt from "bcryptjs";
 import { generarJWT } from "../helpers/jwt";
 
 const getUsers = async (req: Request, res: Response) => {
-	const users = await User.find({}, "name email role google");
+	const from = Number(req.query.from) || 0;
+	/* 
+	const users = await User.find({}, "name email role google")
+		.skip(from)
+		.limit(5);
+
+	const total = await User.countDocuments();
+ */
+
+	// more efficient code
+	const [users, total] = await Promise.all([
+		User.find({}, "name email role google").skip(from).limit(5),
+		User.countDocuments(),
+	]);
+
 	res.json({
 		ok: true,
+		total,
 		users,
 	});
 };
