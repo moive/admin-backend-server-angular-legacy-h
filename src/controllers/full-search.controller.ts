@@ -28,7 +28,7 @@ const getCollectionFullSearch = async (req: Request, res: Response) => {
 	const search = req.params.search;
 	const table = req.params.table;
 	const name = new RegExp(search, "i");
-	let data = [];
+	let data: any = [];
 	try {
 		switch (table) {
 			case "doctors":
@@ -44,7 +44,7 @@ const getCollectionFullSearch = async (req: Request, res: Response) => {
 				break;
 
 			default:
-				return res.status(400).json({
+				res.status(400).json({
 					ok: false,
 					msg: "Table not found",
 				});
