@@ -1,16 +1,7 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model } from "mongoose";
+import { IEntity } from "../interfaces/model.interface";
 
-export interface IUser extends Document {
-	name: string;
-	email: string;
-	password: string;
-	img: string;
-	role: string;
-	google: boolean;
-	uid: string;
-}
-
-const UserSchema = new Schema<IUser>({
+const UserSchema = new Schema<IEntity>({
 	name: {
 		type: String,
 		required: true,
@@ -39,7 +30,7 @@ const UserSchema = new Schema<IUser>({
 });
 
 UserSchema.method("toJSON", function () {
-	const { __v, _id, password, ...object } = this.toObject() as IUser & {
+	const { __v, _id, password, ...object } = this.toObject() as IEntity & {
 		__v: number;
 		_id: string;
 	};
@@ -49,4 +40,4 @@ UserSchema.method("toJSON", function () {
 	return object;
 });
 
-export const User = model<IUser>("User", UserSchema);
+export const User = model<IEntity>("User", UserSchema);

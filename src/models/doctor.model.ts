@@ -1,15 +1,7 @@
-import { Document, model, Schema } from "mongoose";
-import { IUser } from "./user.model";
-import { IHospital } from "./hospital.model";
+import { model, Schema } from "mongoose";
+import { IDoctor, IEntity } from "../interfaces/model.interface";
 
-export interface IDoctor extends Document {
-	name: string;
-	img: string;
-	user: IUser;
-	hospital: IHospital;
-}
-
-const DoctorSchema = new Schema<IDoctor>({
+const DoctorSchema = new Schema<IEntity>({
 	name: {
 		type: String,
 		required: true,
@@ -30,10 +22,10 @@ const DoctorSchema = new Schema<IDoctor>({
 });
 
 DoctorSchema.method("toJSON", function () {
-	const { __v, ...object } = this.toObject() as IDoctor & {
+	const { __v, ...object } = this.toObject() as IEntity & {
 		__v: number;
 	};
 	return object;
 });
 
-export const Doctor = model<IDoctor>("Doctor", DoctorSchema);
+export const Doctor = model<IEntity>("Doctor", DoctorSchema);

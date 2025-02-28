@@ -1,13 +1,7 @@
-import { Schema, model, Document } from "mongoose";
-import { IUser } from "./user.model";
+import { Schema, model } from "mongoose";
+import { IEntity } from "../interfaces/model.interface";
 
-export interface IHospital extends Document {
-	name: string;
-	img: string;
-	user: IUser;
-}
-
-const HospitalSchema = new Schema<IHospital>({
+const HospitalSchema = new Schema<IEntity>({
 	name: {
 		type: String,
 		required: true,
@@ -23,11 +17,11 @@ const HospitalSchema = new Schema<IHospital>({
 });
 
 HospitalSchema.method("toJSON", function () {
-	const { __v, ...object } = this.toObject() as IHospital & {
+	const { __v, ...object } = this.toObject() as IEntity & {
 		__v: number;
 	};
 
 	return object;
 });
 
-export const Hospital = model<IHospital>("Hospital", HospitalSchema);
+export const Hospital = model<IEntity>("Hospital", HospitalSchema);
