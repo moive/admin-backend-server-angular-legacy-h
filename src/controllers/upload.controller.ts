@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 import { FileArray, UploadedFile } from "express-fileupload";
+import { updateImage } from "../helpers/updated-image";
 
 const fileUpload = (req: Request, res: Response) => {
 	const { type, id } = req.params;
@@ -46,12 +47,14 @@ const fileUpload = (req: Request, res: Response) => {
 			});
 			return;
 		}
-	});
 
-	res.json({
-		ok: true,
-		msg: "File uploaded",
-		nameFile,
+		updateImage({ type, id, nameFile });
+
+		res.json({
+			ok: true,
+			msg: "File uploaded",
+			nameFile,
+		});
 	});
 };
 
