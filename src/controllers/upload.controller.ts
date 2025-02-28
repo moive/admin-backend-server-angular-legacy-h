@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
 import { FileArray, UploadedFile } from "express-fileupload";
@@ -58,4 +60,19 @@ const fileUpload = (req: Request, res: Response) => {
 	});
 };
 
-export { fileUpload };
+const getImage = (req: Request, res: Response) => {
+	const { type, photo } = req.params;
+	const pathImage = path.join(__dirname, `../../uploads/${type}/${photo}`);
+
+	if (fs.existsSync(pathImage)) {
+		res.sendFile(pathImage);
+	} else {
+		const pathImage = path.join(
+			__dirname,
+			`../../uploads/no-image-available.jpeg`
+		);
+		res.sendFile(pathImage);
+	}
+};
+
+export { fileUpload, getImage };
