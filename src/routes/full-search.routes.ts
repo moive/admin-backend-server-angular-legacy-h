@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validarJWT } from "../middlewares/validator-jwt.middleware";
+import { validateJWT } from "../middlewares/validator-jwt.middleware";
 import {
 	getCollectionFullSearch,
 	getFullSearch,
@@ -7,7 +7,11 @@ import {
 
 const router = Router();
 
-router.get("/:search", [validarJWT], getFullSearch);
-router.get("/collection/:table/:search", [validarJWT], getCollectionFullSearch);
+router.get("/:search", [validateJWT], getFullSearch);
+router.get(
+	"/collection/:table/:search",
+	[validateJWT],
+	getCollectionFullSearch
+);
 
 export default router;

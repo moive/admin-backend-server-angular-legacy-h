@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import { check } from "express-validator";
 import { validatorFields } from "../middlewares/validator-fields.middleware";
-import { validarJWT } from "../middlewares/validator-jwt.middleware";
+import { validateJWT } from "../middlewares/validator-jwt.middleware";
 import {
 	createHospital,
 	deleteHospital,
@@ -12,18 +12,18 @@ import {
 
 const router = Router();
 
-router.get("/", validarJWT, getHospitals);
+router.get("/", validateJWT, getHospitals);
 router.post(
 	"/",
 	[
-		validarJWT,
+		validateJWT,
 		check("name", "The hospital name is required").not().isEmpty(),
 		validatorFields,
 	],
 	createHospital
 );
-router.put("/:id", [validarJWT], updateHospital);
+router.put("/:id", [validateJWT], updateHospital);
 
-router.delete("/:id", validarJWT, deleteHospital);
+router.delete("/:id", validateJWT, deleteHospital);
 
 export default router;

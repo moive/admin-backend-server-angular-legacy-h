@@ -3,7 +3,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { envs } from "../config/envs";
 import { IRequest } from "../interfaces/req.interface";
 
-const validarJWT = (req: IRequest, res: Response, next: NextFunction) => {
+const validateJWT = (req: IRequest, res: Response, next: NextFunction) => {
 	const token = req.header("x-token");
 	if (!token) {
 		res.status(401).json({
@@ -26,4 +26,4 @@ const validarJWT = (req: IRequest, res: Response, next: NextFunction) => {
 	}
 };
 
-export { validarJWT };
+export { validateJWT };
