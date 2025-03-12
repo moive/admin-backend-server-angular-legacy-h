@@ -72,10 +72,30 @@ const updateHospital = async (req: IRequest, res: Response) => {
 	}
 };
 const deleteHospital = async (req: Request, res: Response) => {
-	res.json({
-		ok: true,
-		msg: "deleteHospital",
-	});
+	const { id } = req.params;
+	try {
+		const hospital = await Hospital.findById(id);
+
+		if (!hospital) {
+			res.status(404).json({
+				ok: false,
+				msg: "Hospital not found",
+			});
+			return;
+		}
+		await Hospital.findByIdAndDelete(id);
+		res.json({
+			ok: true,
+			msg: "delete Hospital",
+			id,
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({
+			ok: false,
+			msg: "Please talk to the administrator",
+		});
+	}
 };
 
 export { getHospitals, createHospital, updateHospital, deleteHospital };
