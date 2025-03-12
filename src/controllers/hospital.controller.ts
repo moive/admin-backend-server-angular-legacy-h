@@ -59,7 +59,6 @@ const updateHospital = async (req: IRequest, res: Response) => {
 
 		res.json({
 			ok: true,
-			id,
 			msg: "updateHospital",
 			hospital: hospitalUpdated,
 		});
