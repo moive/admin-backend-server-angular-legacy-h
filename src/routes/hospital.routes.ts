@@ -22,7 +22,15 @@ router.post(
 	],
 	createHospital
 );
-router.put("/:id", [validateJWT], updateHospital);
+router.put(
+	"/:id",
+	[
+		validateJWT,
+		check("name", "The hospital name is required").not().isEmpty(),
+		validatorFields,
+	],
+	updateHospital
+);
 
 router.delete("/:id", validateJWT, deleteHospital);
 

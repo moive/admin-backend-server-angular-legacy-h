@@ -31,11 +31,45 @@ const createHospital = async (req: IRequest, res: Response) => {
 		});
 	}
 };
-const updateHospital = async (req: Request, res: Response) => {
-	res.json({
-		ok: true,
-		msg: "updateHospital",
-	});
+const updateHospital = async (req: IRequest, res: Response) => {
+	const { id } = req.params;
+	const uid = req.uid;
+
+	try {
+		const hospital = await Hospital.findById(id);
+
+		if (!hospital) {
+			res.status(404).json({
+				ok: false,
+				msg: "Hospital not found",
+			});
+			return;
+		}
+
+		const changesHospital = {
+			...req.body,
+			user: uid,
+		};
+
+		const hospitalUpdated = await Hospital.findByIdAndUpdate(
+			id,
+			changesHospital,
+			{ new: true }
+		);
+
+		res.json({
+			ok: true,
+			id,
+			msg: "updateHospital",
+			hospital: hospitalUpdated,
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({
+			ok: false,
+			msg: "Please talk to the administrator",
+		});
+	}
 };
 const deleteHospital = async (req: Request, res: Response) => {
 	res.json({
