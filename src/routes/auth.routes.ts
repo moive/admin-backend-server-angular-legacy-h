@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { googleSignIn, login } from "../controllers/auth.controller";
+import {
+	googleSignIn,
+	login,
+	renewToken,
+} from "../controllers/auth.controller";
 import { check } from "express-validator";
 import { validatorFields } from "../middlewares/validator-fields.middleware";
 import { validateJWT } from "../middlewares/validator-jwt.middleware";
@@ -26,6 +30,6 @@ router.post(
 	googleSignIn
 );
 
-router.get("/renew", validateJWT);
+router.get("/renew", validateJWT, renewToken);
 
 export default router;

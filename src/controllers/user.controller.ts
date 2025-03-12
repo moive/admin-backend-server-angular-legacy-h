@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { User } from "../models/user.model";
 import bcrypt from "bcryptjs";
-import { generarJWT } from "../helpers/jwt";
+import { generateJWT } from "../helpers/jwt";
 
 const getUsers = async (req: Request, res: Response) => {
 	const from = Number(req.query.from) || 0;
@@ -45,7 +45,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
 		user.password = bcrypt.hashSync(password, salt);
 
 		await user.save();
-		const token = await generarJWT(user.id);
+		const token = await generateJWT(user.id);
 		res.json({
 			ok: true,
 			user,

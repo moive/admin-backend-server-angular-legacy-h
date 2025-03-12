@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import { User } from "../models/user.model";
 import bcrypt from "bcryptjs";
-import { generarJWT } from "../helpers/jwt";
+import { generateJWT } from "../helpers/jwt";
 import { googleVerify } from "../helpers/google-verified";
+import { IRequest } from "../interfaces/req.interface";
 
 const login = async (req: Request, res: Response) => {
 	const { email, password } = req.body;
@@ -24,7 +25,7 @@ const login = async (req: Request, res: Response) => {
 			return;
 		}
 
-		const token = await generarJWT(userDb.id);
+		const token = await generateJWT(userDb.id);
 
 		res.json({
 			ok: true,
@@ -68,7 +69,7 @@ const googleSignIn = async (req: Request, res: Response) => {
 		}
 
 		await user.save();
-		const token = await generarJWT(user.id);
+		const token = await generateJWT(user.id);
 
 		res.json({
 			ok: false,
@@ -86,4 +87,13 @@ const googleSignIn = async (req: Request, res: Response) => {
 	}
 };
 
-export { login, googleSignIn };
+const renewToken = async (req: IRequest, res: Response) => {
+	const uid = req.uid!;
+	const token = await generateJWT(uid);
+	res.json({
+		ok: true,
+		token,
+	});
+};
+
+export { login, googleSignIn, renewToken };
