@@ -1,38 +1,38 @@
 {
-	"name": "admin-backend-server-angular-legacy-h",
-	"version": "1.0.0",
-	"main": "index.js",
-	"scripts": {
-		"dev": "tsnd --respawn --clear src/app.ts",
-		"build": "rimraf ./dist && tsc",
-		"start": "npm run build && node/dist/app.js"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"description": "",
-	"dependencies": {
-		"bcryptjs": "^3.0.2",
-		"cors": "^2.8.5",
-		"dotenv": "^16.4.7",
-		"env-var": "^7.5.0",
-		"express": "^4.21.2",
-		"express-fileupload": "^1.5.1",
-		"express-validator": "^7.2.1",
-		"google-auth-library": "^9.15.1",
-		"jsonwebtoken": "^9.0.2",
-		"mongoose": "^8.10.1",
-		"uuid": "^11.1.0"
-	},
-	"devDependencies": {
-		"@types/bcryptjs": "^2.4.6",
-		"@types/cors": "^2.8.17",
-		"@types/express": "^5.0.0",
-		"@types/express-fileupload": "^1.5.1",
-		"@types/jsonwebtoken": "^9.0.9",
-		"chalk": "^4.1.2",
-		"rimraf": "^6.0.1",
-		"ts-node-dev": "^2.0.0",
-		"typescript": "^5.7.3"
-	}
+  "name": "admin-backend-server-angular-legacy-h",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsnd --respawn --clear src/app.ts",
+    "build": "rimraf ./dist && tsc",
+    "start": "npm run build && node dist/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.3",
+    "env-var": "^7.5.0",
+    "express": "^5.2.1",
+    "express-fileupload": "^1.5.2",
+    "express-validator": "^7.3.1",
+    "google-auth-library": "^10.5.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.1.6",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^3.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/express-fileupload": "^1.5.1",
+    "@types/jsonwebtoken": "^9.0.10",
+    "chalk": "^5.6.2",
+    "rimraf": "^6.1.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  }
 }
