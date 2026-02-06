@@ -1,40 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google sign in</title>
-</head>
-<body>
-  <h2>Google ...!</h2>
-  <div id="buttonDiv"></div>
-  <script src="https://accounts.google.com/gsi/client" async></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Google sign in</title>
+  </head>
+  <body>
+    <h2>Google ...!</h2>
+    <div id="buttonDiv"></div>
+    <script src="https://accounts.google.com/gsi/client" async></script>
     <script>
       function handleCredentialResponse(response) {
         // console.log("Encoded JWT ID token: " + response.credential);
-        let url = "http://localhost:3005/api/login/google";
+        let url = "http://localhost:3000/api/login/google";
         fetch(url, {
-          method:"POST",
+          method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify({token: response.credential})
+          body: JSON.stringify({ token: response.credential }),
         })
-        .then(resp=> resp.json())
-        .then(data => console.log('Our server responded: ', data))
-        .catch(console.log)
+          .then((resp) => resp.json())
+          .then((data) => console.log("Our server responded: ", data))
+          .catch(console.log);
       }
       window.onload = function () {
         google.accounts.id.initialize({
-          client_id: "754211866565-10tuck289v9n067e1qgp464rthlt0t2u.apps.googleusercontent.com",
-          callback: handleCredentialResponse
+          client_id:
+            "133188583851-gev25pdqvqsk1698upbcbo9a1vbbmc3v.apps.googleusercontent.com",
+          callback: handleCredentialResponse,
         });
-        google.accounts.id.renderButton(
-          document.getElementById("buttonDiv"),
-          { theme: "outline", size: "large" }
-        );
+        google.accounts.id.renderButton(document.getElementById("buttonDiv"), {
+          theme: "outline",
+          size: "large",
+        });
         google.accounts.id.prompt();
-      }
+      };
     </script>
-</body>
+  </body>
 </html>
