@@ -15,7 +15,16 @@ import UploadRouter from "./routes/upload.routes";
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:4200", "http://localhost:3000"],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+    exposedHeaders: ["Content-Range", "X-Content-Range"],
+  }),
+);
+
 app.use(express.static("public"));
 app.use(express.json());
 
@@ -29,8 +38,8 @@ app.use("/api/full-search", FullSearchRouter);
 app.use("/api/upload", UploadRouter);
 
 const msgListening =
-	`################################################ \n` +
-	`🛡️  Server listening on port: ${PORT} 🛡️ \n` +
-	`################################################`;
+  `################################################ \n` +
+  `🛡️  Server listening on port: ${PORT} 🛡️ \n` +
+  `################################################`;
 
 app.listen(PORT, () => console.log(chalk.bold.green(msgListening)));
