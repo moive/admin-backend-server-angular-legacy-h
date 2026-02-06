@@ -16,13 +16,14 @@ import UploadRouter from "./routes/upload.routes";
 const app = express();
 
 app.use(
-  cors({
-    origin: ["http://localhost:4200", "http://localhost:3000"],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-    exposedHeaders: ["Content-Range", "X-Content-Range"],
-  }),
+  cors(),
+  // 	{
+  //   origin: ["http://localhost:4200", "http://localhost:3000"],
+  //   credentials: true,
+  //   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  //   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  //   exposedHeaders: ["Content-Range", "X-Content-Range"],
+  // }
 );
 
 app.use(express.static("public"));
