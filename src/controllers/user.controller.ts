@@ -4,8 +4,8 @@ import bcrypt from "bcryptjs";
 import { generateJWT } from "../helpers/jwt";
 
 const getUsers = async (req: Request, res: Response) => {
-	const from = Number(req.query.from) || 0;
-	/* 
+  const from = Number(req.query.from) || 0;
+  /* 
 	const users = await User.find({}, "name email role google")
 		.skip(from)
 		.limit(5);
@@ -13,130 +13,131 @@ const getUsers = async (req: Request, res: Response) => {
 	const total = await User.countDocuments();
  */
 
-	// more efficient code
-	const [users, total] = await Promise.all([
-		User.find({}, "name email role google img").skip(from).limit(5),
-		User.countDocuments(),
-	]);
+  // more efficient code
+  const [users, total] = await Promise.all([
+    User.find({}, "name email role google img").skip(from).limit(5),
+    User.countDocuments(),
+  ]);
 
-	res.json({
-		ok: true,
-		total,
-		users,
-	});
+  res.json({
+    ok: true,
+    total,
+    users,
+  });
 };
 
 const createUser = async (req: Request, res: Response): Promise<void> => {
-	const { email, password } = req.body;
+  const { email, password } = req.body;
 
-	try {
-		const existsUser = await User.findOne({ email });
-		if (existsUser) {
-			res.status(400).json({
-				ok: false,
-				msg: "The email is already registered",
-			});
-			return;
-		}
+  try {
+    const existsUser = await User.findOne({ email });
+    if (existsUser) {
+      res.status(400).json({
+        ok: false,
+        msg: "The email is already registered",
+      });
+      return;
+    }
 
-		const user = new User(req.body);
+    const user = new User(req.body);
 
-		const salt = bcrypt.genSaltSync(12);
-		user.password = bcrypt.hashSync(password, salt);
+    const salt = bcrypt.genSaltSync(12);
+    user.password = bcrypt.hashSync(password, salt);
 
-		await user.save();
-		const token = await generateJWT(user.id);
-		res.json({
-			ok: true,
-			user,
-			token,
-		});
-	} catch (error: any) {
-		console.log(error);
-		res.status(500).json({
-			ok: false,
-			msg: error.message,
-		});
-	}
+    await user.save();
+    const token = await generateJWT(user.id);
+    res.json({
+      ok: true,
+      user,
+      token,
+    });
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      msg: error.message,
+    });
+  }
 };
 
 const updateUser = async (req: Request, res: Response) => {
-	const uid = req.params.id;
-	try {
-		const userDB = await User.findById(uid);
+  const uid = req.params.id;
+  try {
+    const userDB = await User.findById(uid);
 
-		if (!userDB) {
-			res.status(404).json({
-				ok: false,
-				msg: "User not found with that id.",
-			});
-			return;
-		}
+    if (!userDB) {
+      res.status(404).json({
+        ok: false,
+        msg: "User not found with that id.",
+      });
+      return;
+    }
 
-		const { password, google, email, ...fields } = req.body;
+    const { password, google, email, ...fields } = req.body;
 
-		if (userDB.email !== email) {
-			const existUser = await User.findOne({ email });
-			if (existUser) {
-				res.status(400).json({
-					ok: false,
-					msg: "There is already a user with that email",
-				});
-				return;
-			}
-		}
-		if(!userDB.google){
-			fields.email = email;
-		}else if(userDB.email !== email){
-			return res.status(400).json({
-				ok: false,
-				msg: "Google user can't change your email"
-			})
-		}
+    if (userDB.email !== email) {
+      const existUser = await User.findOne({ email });
+      if (existUser) {
+        res.status(400).json({
+          ok: false,
+          msg: "There is already a user with that email",
+        });
+        return;
+      }
+    }
+    if (!userDB.google) {
+      fields.email = email;
+    } else if (userDB.email !== email) {
+      res.status(400).json({
+        ok: false,
+        msg: "Google user can't change your email",
+      });
+      return;
+    }
 
-		const userUpdated = await User.findByIdAndUpdate(uid, fields, {
-			new: true,
-		});
+    const userUpdated = await User.findByIdAndUpdate(uid, fields, {
+      new: true,
+    });
 
-		res.json({
-			ok: true,
-			user: userUpdated,
-		});
-	} catch (error) {
-		console.log(error);
-		res.status(500).json({
-			ok: true,
-			msg: "Unexpected error 😥",
-		});
-	}
+    res.json({
+      ok: true,
+      user: userUpdated,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: true,
+      msg: "Unexpected error 😥",
+    });
+  }
 };
 
 const deleteUser = async (req: Request, res: Response) => {
-	const uid = req.params.id;
-	try {
-		const userDB = await User.findById(uid);
+  const uid = req.params.id;
+  try {
+    const userDB = await User.findById(uid);
 
-		if (!userDB) {
-			res.status(404).json({
-				ok: false,
-				msg: "User not found with that id.",
-			});
-			return;
-		}
+    if (!userDB) {
+      res.status(404).json({
+        ok: false,
+        msg: "User not found with that id.",
+      });
+      return;
+    }
 
-		const userDeleted = await User.findByIdAndDelete(uid);
+    const userDeleted = await User.findByIdAndDelete(uid);
 
-		res.json({
-			ok: true,
-			uid: uid,
-		});
-	} catch (error) {
-		console.log(error);
-		res.status(500).json({
-			ok: true,
-			msg: "Unexpected error 😥",
-		});
-	}
+    res.json({
+      ok: true,
+      uid: uid,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: true,
+      msg: "Unexpected error 😥",
+    });
+  }
 };
 
 export { getUsers, createUser, updateUser, deleteUser };
